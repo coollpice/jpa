@@ -30,4 +30,10 @@ public class ItemRepository {
                 .getResultList();
     }
 
+    public void delete(Long itemId) {
+        em.createQuery("delete from Item i where i.id = :id")
+                .setParameter("id" , itemId)
+                .executeUpdate();
+    }
+
 }
