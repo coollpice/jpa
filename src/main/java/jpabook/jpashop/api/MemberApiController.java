@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.xml.transform.Result;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,12 +57,13 @@ public class MemberApiController {
                 .map(m -> new MemberDto(m.getName()))
                 .collect(Collectors.toList());
 
-        return new Result(collect);
+        return new Result(collect.size(),collect);
     }
 
     @Data
     @AllArgsConstructor
     static class Result<T>{
+        private int count;
         private T data;
     }
 

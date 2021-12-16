@@ -1,9 +1,10 @@
-package jpabook.jpashop.repository;
+package jpabook.jpashop.repository.order;
 
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jpabook.jpashop.domain.*;
+import jpabook.jpashop.repository.OrderSearch;
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -52,6 +53,26 @@ public class OrderRepository {
                 .fetch();
     }
 
+    /** Fetch Join **/
+    public List<Order> findAllWithMemberDelivery() {
+        return em.createQuery(
+                "select o from Order o" +
+                        " join fetch o.member m" +
+                        " join fetch o.delivery d" , Order.class
+                ).getResultList();
+    }
+
+    /** Fetch Join (중복제거)**/
+    public List<Order> findAllWithItem() {
+        return em.createQuery(
+                "select distinct o from Order o" +
+                        " join fetch o.member m" +
+                        " join fetch o.delivery d" +
+                        " join fetch o.orderItems oi" +
+                        " join fetch oi.item i", Order.class
+        ).getResultList();
+    }
+
     private BooleanExpression statusEq(OrderStatus statusCond) {
         if (statusCond == null) {
             return null;
@@ -65,5 +86,4 @@ public class OrderRepository {
         }
         return member.name.like(memberName);
     }
-
 }
