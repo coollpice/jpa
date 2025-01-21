@@ -49,6 +49,7 @@ public class OrderRepository {
                 .join(order.member , member)
                 .where(statusEq(orderSearch.getOrderStatus()) ,
                         nameLike(orderSearch.getMemberName()))
+                .orderBy(order.id.asc())
                 .limit(1000)
                 .fetch();
     }
@@ -62,7 +63,8 @@ public class OrderRepository {
                 ).getResultList();
     }
 
-    /** Fetch Join (중복제거)**/
+    /** Fetch Join (중복제거) **/
+
     public List<Order> findAllWithItem() {
         return em.createQuery(
                 "select distinct o from Order o" +
