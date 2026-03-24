@@ -6,14 +6,18 @@ pipeline {
         APP_NAME = "jpashop-ci-cd"
     }
 
+    options {
+            skipDefaultCheckout()
+        }
+
      stages {
-        /* stage('Checkout') {
+         stage('Checkout') {
             steps {
                 // Git에서 소스 가져오기
                 checkout scm
             }
         }
- */
+
         stage('Gradle Build') {
             steps {
                 sh 'chmod +x ./gradlew'
