@@ -25,9 +25,6 @@ pipeline {
         stage('Copy to D Drive') {
             steps {
                 script {
-                    // 목적지 폴더가 없을 경우를 대비해 생성 (권한 문제 방지)
-                    sh 'mkdir -p /deploy'
-
                     // 실행 가능한 jar 파일만 골라서 복사
                     // (보통 plain.jar는 용량이 매우 작으므로 구분 가능)
                     sh 'cp build/libs/*.jar /deploy/'
